@@ -1,6 +1,8 @@
 import { auth, signIn, signOut } from '@/auth';
+import { BadgePlus, LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const Navbar = async () => {
     // we are able to make the component async because it's a server-side component
@@ -17,22 +19,35 @@ const Navbar = async () => {
                         height={30}
                     />
                 </Link>
-                <div className="flex items-center space-x-5 text-black">
+                <div className="flex items-center justify-center space-x-5 text-black">
                     {session && session.user ? (
                         <>
                             <Link href={'/startup/create'}>
-                                <span>Create</span>
+                                <span className='max-sm:hidden'>Create</span>
+                                <BadgePlus className='sm:hidden size-6' />
                             </Link>
                             <form
                                 action={async () => {
                                     'use server';
                                     await signOut({ redirectTo: '/' });
                                 }}
+                                className='flex items-center'
                             >
-                                <button type="submit">Logout</button>
+                                <button type="submit">
+                                    <span className='max-sm:hidden'>Logout</span>
+                                    <LogOut className='sm:hidden size-6 text-pink-500' />
+                                </button>
                             </form>
                             <Link href={`/user/${session?.id}`}>
-                                <span>{session?.user?.name}</span>
+                                <Avatar className='size-10'>
+                                    <AvatarImage
+                                        src={session?.user?.image || ""}
+                                        alt={session?.user?.name || ""}
+                                    />
+                                    <AvatarFallback>
+                                        {session?.user?.name?.charAt(0)}
+                                    </AvatarFallback>
+                                </Avatar>
                             </Link>
                         </>
                     ) : (
