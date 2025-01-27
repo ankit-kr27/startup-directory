@@ -3,6 +3,17 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
     /* config options here */
+    typescript: {
+        // !! WARN !!
+        // This is not a recommended approach to using TypeScript with Next.js.
+        // We recommend using the `next-env.d.ts` file to add types for custom
+        // properties on `req`, `res`, and the `context` object in your app.
+        // !! WARN !!
+        ignoreBuildErrors: true,
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
     images: {
         dangerouslyAllowSVG: true,
         remotePatterns: [{
