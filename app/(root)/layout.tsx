@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import Navbar from '../../components/Navbar';
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
@@ -5,6 +6,7 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         <main className="font-work-sans">
             <Navbar />
             {children}
+            <Toaster />
         </main>
     );
 };

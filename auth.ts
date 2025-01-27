@@ -12,7 +12,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     callbacks: {    // Callbacks are functions that are called during the sign in process
         async signIn({user, profile}){
             // console.log('signIn', {user, profile});
-            const existingUser = await writeClient.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {id: profile?.id});
+            const existingUser = await client.withConfig({useCdn: false}).fetch(AUTHOR_BY_GITHUB_ID_QUERY, {id: profile?.id});  // we set useCdn to false to get the latest data
             // console.log('existingUser', existingUser);
 
             if(!existingUser){
@@ -33,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // for that we will modify the default jwt token to include the author id
         async jwt({token, account, profile}){
             if(account && profile) {
-                const user = await client.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {id: profile?.id});
+                const user = await client.withConfig({useCdn: false}).fetch(AUTHOR_BY_GITHUB_ID_QUERY, {id: profile?.id});
                 token.id = user._id;
             }
             return token;

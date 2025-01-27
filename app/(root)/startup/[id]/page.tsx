@@ -13,7 +13,7 @@ const md = markdownit();
 
 export const experimental_ppr = true;
 
-const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params).id;
     // console.log(id);
     const post = (await client.fetch(STARTUP_BY_ID_QUERY, { id }))[0];
@@ -56,18 +56,21 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                                 </p>
                             </div>
                         </Link>
-                        <p className='category-tag'>{post.category}</p>
+                        <p className="category-tag">{post.category}</p>
                     </div>
-                    <h3 className='text-30-bold'>Pitch Details</h3>
+                    <h3 className="text-30-bold">Pitch Details</h3>
                     {parsedContent ? (
-                      <article className='prose max-w-4xl font-work-sans break-all' dangerouslySetInnerHTML={{__html: parsedContent}} />
-                    ): (
-                      <p className='no-result'>No pitch details available</p>
+                        <article
+                            className="prose max-w-4xl font-work-sans break-all"
+                            dangerouslySetInnerHTML={{ __html: parsedContent }}
+                        />
+                    ) : (
+                        <p className="no-result">No pitch details available</p>
                     )}
                 </div>
-                <hr className='divider' />
+                <hr className="divider" />
                 {/* TODO: EDITOR SELECTED STARTUPS */}
-                <Suspense fallback={<Skeleton className='view-skeleton' />}>
+                <Suspense fallback={<Skeleton className="view-skeleton" />}>
                     <View id={id} />
                 </Suspense>
             </section>
@@ -75,4 +78,4 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     );
 };
 
-export default page;
+export default Page;
